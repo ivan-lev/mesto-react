@@ -24,6 +24,7 @@ function App() {
 
   const handleCardClick = card => {
     setSelectedCard(card);
+    document.addEventListener('keyup', handleEscClose);
   };
 
   const handleEscClose = event => {
@@ -32,28 +33,12 @@ function App() {
     }
   };
 
-  const handleClickClose = event => {
-    if (
-      event.target.classList.contains('popup_opened') ||
-      event.target.classList.contains('popup__close-button')
-    ) {
-      closeAllPopups();
-    }
-  };
-
-  if (isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard) {
-    document.addEventListener('keydown', handleEscClose);
-    document.addEventListener('mouseup', handleClickClose);
-  } else {
-    document.removeEventListener('keydown', handleEscClose);
-    document.removeEventListener('mouseup', handleClickClose);
-  }
-
   function closeAllPopups() {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+    document.removeEventListener('keyup', handleEscClose);
   }
 
   return (
