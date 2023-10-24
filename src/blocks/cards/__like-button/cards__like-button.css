@@ -1,0 +1,12 @@
+.cards__like-button {
+  width: 22px;
+  height: 19px;
+  background: url('../../../images/button-heart.svg');
+  background-size: 100%;
+  border: 0;
+  margin-left: auto;
+}
+
+.cards__like-button:hover {
+  opacity: 0.5;
+}
