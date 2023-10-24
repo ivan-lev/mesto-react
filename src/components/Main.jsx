@@ -9,16 +9,16 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
+    api.getInitialCards().then(response => setCards(response));
+  }, []);
+
+  React.useEffect(() => {
     api.getUserInfo().then(response => {
       setUserName(response.name);
       setUserDescription(response.about);
       setUserAvatar(response.avatar);
     });
   }, [userName, userDescription, userAvatar]);
-
-  React.useEffect(() => {
-    api.getInitialCards().then(response => setCards(response));
-  }, [cards]);
 
   return (
     <main className="content">
