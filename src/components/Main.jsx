@@ -5,19 +5,25 @@ import Card from './Card.jsx';
 function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }) {
   const [userName, setUserName] = React.useState('Имя пользователя');
   const [userDescription, setUserDescription] = React.useState('Описание пользователя');
-  const [userAvatar, setUserAvatar] = React.useState();
+  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
 
   React.useEffect(() => {
-    api.getInitialCards().then(response => setCards(response));
+    api
+      .getInitialCards()
+      .then(response => setCards(response))
+      .catch(error => console.error('Ошибка в api-запросе: ', error));
   }, []);
 
   React.useEffect(() => {
-    api.getUserInfo().then(response => {
-      setUserName(response.name);
-      setUserDescription(response.about);
-      setUserAvatar(response.avatar);
-    });
+    api
+      .getUserInfo()
+      .then(response => {
+        setUserName(response.name);
+        setUserDescription(response.about);
+        setUserAvatar(response.avatar);
+      })
+      .catch(error => console.error('Ошибка в api-запросе: ', error));
   }, []);
 
   return (
