@@ -5,4 +5,4 @@ function CurrentYear() {
   return <span className="footer__current-year"> {currentYear}</span>;
 }
 
-export { CurrentYear };
+export default CurrentYear;
