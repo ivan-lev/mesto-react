@@ -15,7 +15,7 @@ function Card({ card, onCardClick, ...props }) {
           <span className="cards__like-counter">{card.likes.length}</span>
         </div>
       </div>
-      <button type="button" className="button cards__del-button"></button>
+      <button type="button" className="button cards__del-button" />
     </div>
   );
 }
