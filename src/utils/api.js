@@ -6,7 +6,6 @@ class Api {
     this.handleLikeRequest = this.handleLikeRequest.bind(this);
   }
 
-  // 01. ��������� ���������� � ������������
   getUserInfo() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
@@ -16,7 +15,6 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 02. �������� ������� ��������
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'GET',
@@ -26,7 +24,6 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 03. ���������� ����� ���������� � ������������
   setInfo(newName, newAbout) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
@@ -41,7 +38,6 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 04. ���������� ����� ��������
   setCard({ cardName, cardLink }) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
@@ -56,7 +52,6 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 07. �������� ��������
   deleteCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
@@ -65,13 +60,12 @@ class Api {
       }
     }).then(res => {
       if (!res.ok) {
-        return Promise.reject(`������: ${res.status}`);
+        return Promise.reject(`Ошибка: ${res.status}`);
       }
       return res;
     });
   }
 
-  // 08.1 ��������� ���� ��������
   _addLike(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'PUT',
@@ -81,7 +75,6 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 08.2 ����� ���� � ��������
   _deleteLike(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method: 'DELETE',
@@ -91,12 +84,10 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  // 08.03 ���������� �������
   handleLikeRequest(cardId, isLiked) {
     return isLiked ? this._addLike(cardId) : this._deleteLike(cardId);
   }
 
-  // 09. �������� ������
   setAvatar(link) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
@@ -112,7 +103,7 @@ class Api {
 
   _checkResponseStatus(res) {
     if (!res.ok) {
-      return Promise.reject(`������: ${res.status}`);
+      return Promise.reject(`Ошибка: ${res.status}`);
     }
     return res.json();
   }
