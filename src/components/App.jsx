@@ -4,13 +4,23 @@ import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
-import { CurrentYear } from '../utils/utils.jsx';
+import CurrentYear from './CurrentYear.jsx';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState(null);
+
+  React.useEffect(() => {
+    if (isEditAvatarPopupOpen || isEditProfilePopupOpen || isAddPlacePopupOpen || selectedCard) {
+      document.addEventListener('keyup', handleEscClose);
+    }
+
+    return () => {
+      document.removeEventListener('keyup', handleEscClose);
+    };
+  }, [isEditAvatarPopupOpen, isEditProfilePopupOpen, isAddPlacePopupOpen, selectedCard]);
 
   const handleEditAvatarClick = () => {
     setIsEditAvatarPopupOpen(true);
@@ -24,7 +34,6 @@ function App() {
 
   const handleCardClick = card => {
     setSelectedCard(card);
-    document.addEventListener('keyup', handleEscClose);
   };
 
   const handleEscClose = event => {
@@ -38,7 +47,6 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
-    document.removeEventListener('keyup', handleEscClose);
   }
 
   return (
