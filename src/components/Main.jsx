@@ -1,12 +1,11 @@
 import React from 'react';
 import api from '../utils/api.js';
 import Card from './Card.jsx';
+import CurrentUserContext from '../contexts/currentUserContext.js';
 
 function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }) {
-  const [userName, setUserName] = React.useState('Имя пользователя');
-  const [userDescription, setUserDescription] = React.useState('Описание пользователя');
-  const [userAvatar, setUserAvatar] = React.useState('');
   const [cards, setCards] = React.useState([]);
+  const userInfo = React.useContext(CurrentUserContext);
 
   React.useEffect(() => {
     api
@@ -15,32 +14,21 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }
       .catch(error => console.error('Ошибка в api-запросе: ', error));
   }, []);
 
-  React.useEffect(() => {
-    api
-      .getUserInfo()
-      .then(response => {
-        setUserName(response.name);
-        setUserDescription(response.about);
-        setUserAvatar(response.avatar);
-      })
-      .catch(error => console.error('Ошибка в api-запросе: ', error));
-  }, []);
-
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar" onClick={onEditAvatar}>
           <div className="profile__avatar-hover"></div>
-          <img className="profile__avatar-image" src={userAvatar} alt="Аватар пользователя" />
+          <img className="profile__avatar-image" src={userInfo.avatar} alt="Аватар пользователя" />
         </div>
         <div className="profile__info">
-          <h1 className="profile__username">{userName}</h1>
+          <h1 className="profile__username">{userInfo.name}</h1>
           <button
             type="button"
             className="button profile__edit-button"
             onClick={onEditProfile}
           ></button>
-          <p className="profile__description">{userDescription}</p>
+          <p className="profile__description">{userInfo.about}</p>
         </div>
         <button
           id="open-popup-add-photo-button"
