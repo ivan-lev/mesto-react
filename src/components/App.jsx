@@ -8,6 +8,7 @@ import ImagePopup from './ImagePopup.jsx';
 import CurrentYear from './CurrentYear.jsx';
 import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/currentUserContext.js';
+import EditProfilePopup from './EditProfilePopup.jsx';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -100,39 +101,10 @@ function App() {
           onCardLike={handleCardLike}
           onCardDelete={handleDeleteCard}
         >
-          <PopupWithForm
-            name="profile"
-            title="Редактировать профиль"
+          <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
-          >
-            <fieldset className="popup__fieldset">
-              <input
-                type="text"
-                id="author-name"
-                placeholder="Имя"
-                name="author-name"
-                className="popup__input popup__input_type_name"
-                required
-                minLength="2"
-                maxLength="40"
-              />
-              <span className="popup__error author-name-error"></span>
-            </fieldset>
-            <fieldset className="popup__fieldset">
-              <input
-                type="text"
-                id="author-about"
-                placeholder="Описание"
-                name="author-about"
-                className="popup__input popup__input_type_description"
-                required
-                minLength="2"
-                maxLength="200"
-              />
-              <span className="popup__error author-about-error"></span>
-            </fieldset>
-          </PopupWithForm>
+          ></EditProfilePopup>
 
           <PopupWithForm
             name="card-add"
