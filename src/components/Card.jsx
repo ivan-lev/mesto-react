@@ -17,6 +17,10 @@ function Card({ card, onCardClick, onCardLike, onCardDelete, ...props }) {
     onCardLike(card);
   }
 
+  function handleDeleteClick() {
+    onCardDelete(card);
+  }
+
   return (
     <div className="cards__card">
       <img src={card.link} alt="" className="cards__card-image" onClick={handleClick} />
@@ -32,7 +36,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete, ...props }) {
         </div>
       </div>
       {
-        isOwn && <button className="button cards__del-button" onClick={onCardDelete} />
+        isOwn && <button className="button cards__del-button" onClick={handleDeleteClick} />
         /* <button type="button" className="button cards__del-button" /> */
       }
     </div>

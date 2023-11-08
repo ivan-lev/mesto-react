@@ -80,6 +80,10 @@ function App() {
 
   const handleDeleteCard = card => {
     api.deleteCard(card._id);
+    const cardsFiltered = cards.filter(cardToCheck => {
+      return cardToCheck._id !== card._id;
+    });
+    setCards(cardsFiltered);
   };
 
   return (
