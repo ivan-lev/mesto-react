@@ -3,32 +3,46 @@ import api from '../utils/api.js';
 import Card from './Card.jsx';
 import CurrentUserContext from '../contexts/currentUserContext.js';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }) {
-  const [cards, setCards] = React.useState([]);
-  const userInfo = React.useContext(CurrentUserContext);
+function Main({
+  onEditAvatar,
+  onEditProfile,
+  onAddPlace,
+  cards,
+  setCards,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  ...props
+}) {
+  //const [cards, setCards] = React.useState([]);
+  const currentUser = React.useContext(CurrentUserContext);
 
-  React.useEffect(() => {
-    api
-      .getInitialCards()
-      .then(response => setCards(response))
-      .catch(error => console.error('Ошибка в api-запросе: ', error));
-  }, []);
+  // React.useEffect(() => {
+  //   api
+  //     .getInitialCards()
+  //     .then(response => setCards(response))
+  //     .catch(error => console.error('Ошибка в api-запросе: ', error));
+  // }, []);
 
   return (
     <main className="content">
       <section className="profile">
         <div className="profile__avatar" onClick={onEditAvatar}>
           <div className="profile__avatar-hover"></div>
-          <img className="profile__avatar-image" src={userInfo.avatar} alt="Аватар пользователя" />
+          <img
+            className="profile__avatar-image"
+            src={currentUser.avatar}
+            alt="Аватар пользователя"
+          />
         </div>
         <div className="profile__info">
-          <h1 className="profile__username">{userInfo.name}</h1>
+          <h1 className="profile__username">{currentUser.name}</h1>
           <button
             type="button"
             className="button profile__edit-button"
             onClick={onEditProfile}
           ></button>
-          <p className="profile__description">{userInfo.about}</p>
+          <p className="profile__description">{currentUser.about}</p>
         </div>
         <button
           id="open-popup-add-photo-button"
@@ -40,7 +54,13 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, ...props }
 
       <section className="cards">
         {cards.map(card => (
-          <Card key={card._id} onCardClick={onCardClick} card={card} />
+          <Card
+            key={card._id}
+            onCardClick={onCardClick}
+            onCardLike={onCardLike}
+            onCardDelete={onCardDelete}
+            card={card}
+          />
         ))}
       </section>
       {props.children}

@@ -13,6 +13,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [cards, setCards] = React.useState([]);
   const [selectedCard, setSelectedCard] = React.useState(null);
   const [currentUser, setCurrentUser] = React.useState({});
 
@@ -30,6 +31,13 @@ function App() {
     api
       .getUserInfo()
       .then(response => setCurrentUser(response))
+      .catch(error => console.error('Ошибка в api-запросе: ', error));
+  }, []);
+
+  React.useEffect(() => {
+    api
+      .getInitialCards()
+      .then(response => setCards(response))
       .catch(error => console.error('Ошибка в api-запросе: ', error));
   }, []);
 
@@ -53,12 +61,26 @@ function App() {
     }
   };
 
-  function closeAllPopups() {
+  const closeAllPopups = () => {
     setIsEditAvatarPopupOpen(false);
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setSelectedCard(null);
+  };
+
+  function handleCardLike(card) {
+    // Снова проверяем, есть ли уже лайк на этой карточке
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+
+    // Отправляем запрос в API и получаем обновлённые данные карточки
+    api.handleLikeRequest(card._id, !isLiked).then(newCard => {
+      setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
+    });
   }
+
+  const handleDeleteCard = card => {
+    api.deleteCard(card._id);
+  };
 
   return (
     <div className="page">
@@ -68,7 +90,11 @@ function App() {
           onEditAvatar={handleEditAvatarClick}
           onEditProfile={handleEditProfileClick}
           onAddPlace={handleAddPlaceClick}
+          cards={cards}
+          setCards={setCards}
           onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleDeleteCard}
         >
           <PopupWithForm
             name="profile"
