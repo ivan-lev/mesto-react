@@ -1,11 +1,44 @@
 import React from 'react';
+import CurrentUserContext from '../contexts/currentUserContext';
 
-function EditProfilePopup({ isOpen, onClose, ...props }) {
+function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
+  const [name, setName] = React.useState('');
+  const [description, setDescription] = React.useState('');
+  const currentUser = React.useContext(CurrentUserContext);
+
+  React.useEffect(() => {
+    setName(currentUser.name);
+    setDescription(currentUser.about);
+  }, [currentUser]);
+
+  function handleChangeName(event) {
+    setName(event.target.value);
+  }
+
+  function handleChangeDescription(event) {
+    setDescription(event.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    onUpdateUser({
+      name,
+      about: description
+    });
+  }
+
   return (
     <div className={`popup popup_type_profile ${isOpen ? 'popup_opened' : ''}`}>
       <div className="popup__container">
         <p className="popup__heading">Редактировать профиль</p>
-        <form id="popup__user-form" name="popup_type_profile" className="popup__form" noValidate>
+        <form
+          id="popup__user-form"
+          name="popup_type_profile"
+          className="popup__form"
+          noValidate
+          onSubmit={handleSubmit}
+        >
           <fieldset className="popup__fieldset">
             <input
               type="text"
@@ -16,6 +49,8 @@ function EditProfilePopup({ isOpen, onClose, ...props }) {
               required
               minLength="2"
               maxLength="40"
+              value={name}
+              onChange={handleChangeName}
             />
             <span className="popup__error author-name-error"></span>
           </fieldset>
@@ -29,6 +64,8 @@ function EditProfilePopup({ isOpen, onClose, ...props }) {
               required
               minLength="2"
               maxLength="200"
+              value={description}
+              onChange={handleChangeDescription}
             />
             <span className="popup__error author-about-error"></span>
           </fieldset>

@@ -32,14 +32,14 @@ function App() {
     api
       .getUserInfo()
       .then(response => setCurrentUser(response))
-      .catch(error => console.error('Ошибка в api-запросе: ', error));
+      .catch(error => console.error('Ошибка получения информации о пользователе: ', error));
   }, []);
 
   React.useEffect(() => {
     api
       .getInitialCards()
       .then(response => setCards(response))
-      .catch(error => console.error('Ошибка в api-запросе: ', error));
+      .catch(error => console.error('Ошибка получения карточек: ', error));
   }, []);
 
   const handleEditAvatarClick = () => {
@@ -69,15 +69,13 @@ function App() {
     setSelectedCard(null);
   };
 
-  function handleCardLike(card) {
-    // Снова проверяем, есть ли уже лайк на этой карточке
+  const handleCardLike = card => {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    // Отправляем запрос в API и получаем обновлённые данные карточки
     api.handleLikeRequest(card._id, !isLiked).then(newCard => {
       setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
     });
-  }
+  };
 
   const handleDeleteCard = card => {
     api.deleteCard(card._id);
@@ -85,6 +83,14 @@ function App() {
       return cardToCheck._id !== card._id;
     });
     setCards(cardsFiltered);
+  };
+
+  const handleUpdateUser = ({ name, about }) => {
+    api
+      .setUserInfo(name, about)
+      .then(response => setCurrentUser(response))
+      .catch(error => console.error('Ошибка сохранения данных пользователся: ', error));
+    closeAllPopups();
   };
 
   return (
@@ -104,6 +110,7 @@ function App() {
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
+            onUpdateUser={handleUpdateUser}
           ></EditProfilePopup>
 
           <PopupWithForm
