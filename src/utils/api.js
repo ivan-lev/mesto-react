@@ -24,7 +24,7 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  setInfo(newName, newAbout) {
+  setUserInfo(newName, newAbout) {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: {
