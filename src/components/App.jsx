@@ -1,14 +1,17 @@
-import React from 'react';
 import './App.css';
+import React from 'react';
+import api from '../utils/api.js';
+import CurrentUserContext from '../contexts/currentUserContext.js';
+
 import Header from './Header.jsx';
 import Main from './Main.jsx';
 import Footer from './Footer.jsx';
+import CurrentYear from './CurrentYear.jsx';
+
 import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
-import CurrentYear from './CurrentYear.jsx';
-import api from '../utils/api.js';
-import CurrentUserContext from '../contexts/currentUserContext.js';
 import EditProfilePopup from './EditProfilePopup.jsx';
+import EditAvatarPopup from './EditAvatarPopup.jsx';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -93,6 +96,14 @@ function App() {
     closeAllPopups();
   };
 
+  const handleUpdateAvatar = link => {
+    api
+      .setUserAvatar(link)
+      .then(response => setCurrentUser(response))
+      .catch(error => console.error('Ошибка сохранения аватара пользователся: ', error));
+    closeAllPopups();
+  };
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -145,24 +156,11 @@ function App() {
             </fieldset>
           </PopupWithForm>
 
-          <PopupWithForm
-            name="edit-avatar"
-            title="Обновить аватар"
+          <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
-          >
-            <fieldset className="popup__fieldset">
-              <input
-                type="url"
-                placeholder="Ссылка на аватарку"
-                id="avatar-photo-link"
-                name="avatar-photo-link"
-                className="popup__input popup__input_type_avatar-photo-link"
-                required
-              />
-              <span className="popup__error avatar-photo-link-error"></span>
-            </fieldset>
-          </PopupWithForm>
+            onUpdateAvatar={handleUpdateAvatar}
+          />
 
           <PopupWithForm
             name="delete-card"
