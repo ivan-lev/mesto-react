@@ -12,6 +12,7 @@ import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
+import AddPlacePopup from './AddPlacePopup.jsx';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -80,7 +81,7 @@ function App() {
     });
   };
 
-  const handleDeleteCard = card => {
+  const handleCardDelete = card => {
     api.deleteCard(card._id);
     const cardsFiltered = cards.filter(cardToCheck => {
       return cardToCheck._id !== card._id;
@@ -104,6 +105,14 @@ function App() {
     closeAllPopups();
   };
 
+  const handleAddPlaceSubmit = (placeName, placePhoto) => {
+    api
+      .setNewPlace(placeName, placePhoto)
+      .then(response => setCards([response, ...cards]))
+      .catch(error => console.error('Ошибка добавления нового места: ', error));
+    closeAllPopups();
+  };
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
@@ -116,45 +125,19 @@ function App() {
           setCards={setCards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDelete={handleDeleteCard}
+          onCardDelete={handleCardDelete}
         >
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
-          ></EditProfilePopup>
+          />
 
-          <PopupWithForm
-            name="card-add"
-            title="Новое место"
+          <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
-          >
-            <fieldset className="popup__fieldset">
-              <input
-                type="text"
-                placeholder="Название"
-                id="photo-name"
-                name="photo-name"
-                className="popup__input popup__input_type_photo-title"
-                required
-                minLength="2"
-                maxLength="30"
-              />
-              <span className="popup__error photo-name-error"></span>
-            </fieldset>
-            <fieldset className="popup__fieldset">
-              <input
-                type="url"
-                placeholder="Ссылка на картинку"
-                id="photo-link"
-                name="photo-link"
-                className="popup__input popup__input_type_photo-link"
-                required
-              />
-              <span className="popup__error photo-link-error"></span>
-            </fieldset>
-          </PopupWithForm>
+            onAddPlace={handleAddPlaceSubmit}
+          />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
@@ -162,11 +145,7 @@ function App() {
             onUpdateAvatar={handleUpdateAvatar}
           />
 
-          <PopupWithForm
-            name="delete-card"
-            title="Вы уверены?"
-            onClose={closeAllPopups}
-          ></PopupWithForm>
+          <PopupWithForm name="delete-card" title="Вы уверены?" onClose={closeAllPopups} />
 
           <ImagePopup
             name={selectedCard?.name}
