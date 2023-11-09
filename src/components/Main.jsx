@@ -10,6 +10,7 @@ function Main({
   setCards,
   onCardClick,
   onCardLike,
+  onCardDeleteClick,
   onCardDelete,
   ...props
 }) {
@@ -49,6 +50,7 @@ function Main({
             key={card._id}
             onCardClick={onCardClick}
             onCardLike={onCardLike}
+            onCardDeleteClick={onCardDeleteClick}
             onCardDelete={onCardDelete}
             card={card}
           />
