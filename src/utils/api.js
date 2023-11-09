@@ -88,7 +88,7 @@ class Api {
     return isLiked ? this._addLike(cardId) : this._deleteLike(cardId);
   }
 
-  setAvatar(link) {
+  setUserAvatar(link) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
