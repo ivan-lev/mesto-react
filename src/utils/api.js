@@ -38,12 +38,12 @@ class Api {
     }).then(res => this._checkResponseStatus(res));
   }
 
-  setCard({ cardName, cardLink }) {
+  setNewPlace(placeName, placePhoto) {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       body: JSON.stringify({
-        name: cardName,
-        link: cardLink
+        name: placeName,
+        link: placePhoto
       }),
       headers: {
         authorization: this._token,
