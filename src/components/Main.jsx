@@ -1,5 +1,4 @@
 import React from 'react';
-import api from '../utils/api.js';
 import Card from './Card.jsx';
 import CurrentUserContext from '../contexts/currentUserContext.js';
 
@@ -14,15 +13,7 @@ function Main({
   onCardDelete,
   ...props
 }) {
-  //const [cards, setCards] = React.useState([]);
   const currentUser = React.useContext(CurrentUserContext);
-
-  // React.useEffect(() => {
-  //   api
-  //     .getInitialCards()
-  //     .then(response => setCards(response))
-  //     .catch(error => console.error('Ошибка в api-запросе: ', error));
-  // }, []);
 
   return (
     <main className="content">
