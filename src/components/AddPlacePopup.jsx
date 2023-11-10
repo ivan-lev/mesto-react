@@ -1,8 +1,15 @@
 import React from 'react';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [placeName, setPlaceName] = React.useState();
-  const [placePhoto, setPlacePhoto] = React.useState();
+  const [placeName, setPlaceName] = React.useState('');
+  const [placePhoto, setPlacePhoto] = React.useState('');
+
+  React.useEffect(() => {
+    if (!isOpen) {
+      setPlaceName('');
+      setPlacePhoto('');
+    }
+  }, [isOpen]);
 
   const handlePlaceName = event => {
     setPlaceName(event.target.value);
@@ -38,6 +45,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
               required
               minLength="2"
               maxLength="30"
+              value={placeName}
               onChange={handlePlaceName}
             />
             <span className="popup__error photo-name-error"></span>
@@ -50,6 +58,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
               name="photo-link"
               className="popup__input popup__input_type_photo-link"
               required
+              value={placePhoto}
               onChange={handlePlacePhoto}
             />
             <span className="popup__error photo-link-error"></span>

@@ -3,6 +3,12 @@ import React from 'react';
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
   const avatarRef = React.useRef();
 
+  React.useEffect(() => {
+    if (!isOpen) {
+      avatarRef.current.value = '';
+    }
+  }, [isOpen]);
+
   function handleSubmit(event) {
     event.preventDefault();
     onUpdateAvatar(avatarRef.current.value);
