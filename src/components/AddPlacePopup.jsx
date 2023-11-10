@@ -32,7 +32,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           id="popup__user-form"
           name="popup_type_card-add"
           className="popup__form"
-          noValidate
           onSubmit={handleSubmit}
         >
           <fieldset className="popup__fieldset">

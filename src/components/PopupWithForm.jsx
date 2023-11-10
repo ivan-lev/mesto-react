@@ -9,7 +9,6 @@ function PopupWithForm({ title, name, isOpen, onClose, onSubmit, ...props }) {
           id="popup__user-form"
           name={`popup_type_${name}`}
           className="popup__form"
-          noValidate
           onSubmit={onSubmit}
         >
           {props.children}

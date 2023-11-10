@@ -14,7 +14,6 @@ function DeleteCardPopup({ isOpen, onClose, onCardDelete }) {
           id="popup__user-form"
           name="popup_type_delete-card"
           className="popup__form"
-          noValidate
           onSubmit={handleDeleteCard}
         >
           <button type="submit" className="button popup__save-user-data popup__submit-button">

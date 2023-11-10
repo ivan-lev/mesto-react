@@ -38,7 +38,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           id="popup__user-form"
           name="popup_type_profile"
           className="popup__form"
-          noValidate
           onSubmit={handleSubmit}
         >
           <fieldset className="popup__fieldset">
