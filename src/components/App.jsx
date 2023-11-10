@@ -97,9 +97,12 @@ function App() {
   const handleCardLike = card => {
     const isLiked = card.likes.some(i => i._id === currentUser._id);
 
-    api.handleLikeRequest(card._id, !isLiked).then(newCard => {
-      setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
-    });
+    api
+      .handleLikeRequest(card._id, !isLiked)
+      .then(newCard => {
+        setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
+      })
+      .catch(error => console.error('Лайк не поставился, произошла ошибка: ', error));
   };
 
   const handleCardDeleteClick = card => {
@@ -108,36 +111,46 @@ function App() {
   };
 
   const handleCardDeleteWithPopup = () => {
-    api.deleteCard(cardToDelete._id);
-    const cardsFiltered = cards.filter(cardToCheck => {
-      return cardToCheck._id !== cardToDelete._id;
-    });
-    setCards(cardsFiltered);
-    closeAllPopups();
+    api
+      .deleteCard(cardToDelete._id)
+      .then(response => {
+        const cardsFiltered = cards.filter(cardToCheck => {
+          return cardToCheck._id !== cardToDelete._id;
+        });
+        setCards(cardsFiltered);
+        closeAllPopups();
+      })
+      .catch(error => console.error('Карточка не удалилась, ошибка: ', error));
   };
 
   const handleUpdateUser = ({ name, about }) => {
     api
       .setUserInfo(name, about)
-      .then(response => setCurrentUser(response))
+      .then(response => {
+        setCurrentUser(response);
+        closeAllPopups();
+      })
       .catch(error => console.error('Ошибка сохранения данных пользователся: ', error));
-    closeAllPopups();
   };
 
   const handleUpdateAvatar = link => {
     api
       .setUserAvatar(link)
-      .then(response => setCurrentUser(response))
+      .then(response => {
+        setCurrentUser(response);
+        closeAllPopups();
+      })
       .catch(error => console.error('Ошибка сохранения аватара пользователся: ', error));
-    closeAllPopups();
   };
 
   const handleAddPlaceSubmit = (placeName, placePhoto) => {
     api
       .setNewPlace(placeName, placePhoto)
-      .then(response => setCards([response, ...cards]))
+      .then(response => {
+        setCards([response, ...cards]);
+        closeAllPopups();
+      })
       .catch(error => console.error('Ошибка добавления нового места: ', error));
-    closeAllPopups();
   };
 
   return (
