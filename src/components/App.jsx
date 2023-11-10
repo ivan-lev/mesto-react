@@ -166,7 +166,6 @@ function App() {
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
           onCardDeleteClick={handleCardDeleteClick}
-          //onCardDelete={handleCardDeleteWithPopup}
         >
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
