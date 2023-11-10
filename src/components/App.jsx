@@ -8,7 +8,6 @@ import Main from './Main.jsx';
 import Footer from './Footer.jsx';
 import CurrentYear from './CurrentYear.jsx';
 
-import PopupWithForm from './PopupWithForm.jsx';
 import ImagePopup from './ImagePopup.jsx';
 import EditProfilePopup from './EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup.jsx';
@@ -75,6 +74,11 @@ function App() {
     setSelectedCard(card);
   };
 
+  const handleDeleteButtonClick = card => {
+    setIsCardDeletePopupOpen(true);
+    setCardToDelete(card);
+  };
+
   const handleEscClose = event => {
     if (event.key === 'Escape') {
       closeAllPopups();
@@ -103,11 +107,6 @@ function App() {
         setCards(state => state.map(c => (c._id === card._id ? newCard : c)));
       })
       .catch(error => console.error('Лайк не поставился, произошла ошибка: ', error));
-  };
-
-  const handleCardDeleteClick = card => {
-    setIsCardDeletePopupOpen(true);
-    setCardToDelete(card);
   };
 
   const handleCardDeleteWithPopup = () => {
@@ -165,7 +164,7 @@ function App() {
           setCards={setCards}
           onCardClick={handleCardClick}
           onCardLike={handleCardLike}
-          onCardDeleteClick={handleCardDeleteClick}
+          onCardDeleteClick={handleDeleteButtonClick}
         >
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}
