@@ -9,11 +9,11 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
     }
   }, [isOpen]);
 
-  function handleSubmit(event) {
+  const handleSubmit = event => {
     event.preventDefault();
     onUpdateAvatar(avatarRef.current.value);
-    avatarRef.current.value = '';
-  }
+  };
+
   return (
     <div className={`popup popup_type_edit-avatar ${isOpen ? 'popup_opened' : ''}`}>
       <div className="popup__container">
