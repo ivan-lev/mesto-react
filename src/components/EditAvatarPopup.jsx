@@ -21,7 +21,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       title="Обновить аватар"
-      name="profile"
+      name="edit-avatar"
       submitButtonText="Сохранить"
     >
       <fieldset className="popup__fieldset">
