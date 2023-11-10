@@ -1,5 +1,5 @@
 import './App.css';
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 import api from '../utils/api.js';
 import CurrentUserContext from '../contexts/currentUserContext.js';
 
@@ -16,16 +16,16 @@ import AddPlacePopup from './AddPlacePopup.jsx';
 import DeleteCardPopup from './DeleteCardPopup.jsx';
 
 function App() {
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
-  const [isCardDeletePopupOpen, setIsCardDeletePopupOpen] = React.useState(false);
-  const [cards, setCards] = React.useState([]);
-  const [selectedCard, setSelectedCard] = React.useState(null);
-  const [cardToDelete, setCardToDelete] = React.useState({});
-  const [currentUser, setCurrentUser] = React.useState({});
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isCardDeletePopupOpen, setIsCardDeletePopupOpen] = useState(false);
+  const [cards, setCards] = useState([]);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [cardToDelete, setCardToDelete] = useState({});
+  const [currentUser, setCurrentUser] = useState({});
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (
       isEditAvatarPopupOpen ||
       isEditProfilePopupOpen ||
@@ -47,14 +47,14 @@ function App() {
     selectedCard
   ]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     api
       .getUserInfo()
       .then(response => setCurrentUser(response))
       .catch(error => console.error('Ошибка получения информации о пользователе: ', error));
   }, []);
 
-  React.useEffect(() => {
+  useEffect(() => {
     api
       .getInitialCards()
       .then(response => setCards(response))

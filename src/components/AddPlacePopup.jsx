@@ -1,10 +1,10 @@
-import React from 'react';
+import { React, useState, useEffect } from 'react';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [placeName, setPlaceName] = React.useState('');
-  const [placePhoto, setPlacePhoto] = React.useState('');
+  const [placeName, setPlaceName] = useState('');
+  const [placePhoto, setPlacePhoto] = useState('');
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       setPlaceName('');
       setPlacePhoto('');

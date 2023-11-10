@@ -1,9 +1,9 @@
-import React from 'react';
+import { React, useRef, useEffect } from 'react';
 
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
-  const avatarRef = React.useRef();
+  const avatarRef = useRef();
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isOpen) {
       avatarRef.current.value = '';
     }
